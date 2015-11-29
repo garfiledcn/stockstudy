@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <sstream>
 #include <string.h>
+#include <vector>
+
 
 struct StockDataType{
 	int date;
@@ -12,7 +14,7 @@ struct StockDataType{
 	int closePrice;
 	int unused1;
 	int vol;
-	int unused[3];
+	int unused2;
 };
 
 class Date{
@@ -63,7 +65,7 @@ class SDT{
 		float m_closingPrice;
 		float m_topPrice;
 		float m_floorPrice;
-		long  m_volume;
+		float m_volume;
 };
 
 SDT::SDT()
@@ -108,8 +110,11 @@ std::string SDT::toString()
 	return result;
 }
 
+std::vector<SDT> StockDataArray;
+
 int main(int argc, char** argv) {
 	const char* filename = NULL;
+	const char* ofn = "output.txt";
 	if (argc >= 2) {
 		filename = argv[1];
 	} else {
@@ -118,15 +123,35 @@ int main(int argc, char** argv) {
 	}
 	FILE* fp = fopen(filename, "r");
 	struct StockDataType d;
-
-	if (!fp) {
-		std::cout<<"cannot open file 600887, just return;"<<std::endl;
+	FILE* ofp = fopen(ofn, "w+");
+	if (!fp || !ofp) {
+		std::cout<<"cannot open file for read/write, just return;"<<std::endl;
 		exit (1);
 	}
-	memset(&d, sizeof(struct StockDataType), 0);
-	fread(&d, sizeof(d), 1, fp);
+	
+	int index =0;
+	while (9) {
+		memset(&d, sizeof(struct StockDataType), 0);
+		int count = fread(&d, 1, sizeof(d), fp);
+		std::cout<<"read "<<index<<"th times"<<std::endl;
+		++index;
+		
+		if (count != sizeof(d)){
+			std::cout<<"file read return "<<count<<", just return\n";
+			break;
+		}
+		
+		SDT a(d);
+		//std::cout<<a.toString()<<std::endl;
+		StockDataArray.push_back(a);
+	}
 	fclose (fp);
-	SDT a(d);
-	std::cout<<a.toString();
+	std::vector<SDT>::iterator it = StockDataArray.begin();
+	std::vector<SDT>::iterator end = StockDataArray.end();
+	for(; it != end; ++it) {
+		std::cout<<it->toString();
+		fprintf(ofp, "%s\n", it->toString().c_str());
+	}
+	//std::cout<<a.toString();
 	return 0;
 }
