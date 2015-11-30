@@ -103,3 +103,25 @@ void getMaxMinAvr(int range, std::vector<SDT>& sdtarray)
 		findMaxMinAvr(i-Begin, i-Begin+range, sdtarray);
 	}
 }
+
+RangeInfo::RangeInfo()
+	: m_max(-1)
+	, m_min(-1)
+	, m_average(-1)
+	, m_type(NONERANGE)
+{}
+
+RangeInfo::RangeInfo(float max, float min, float avr, RANGETYPE type)
+	: m_max(max)
+	, m_min(min)
+	, m_average(avr)
+	, m_type(type)	
+{}
+
+void RangeInfo::setupMaxMinAvrRange(float max, float min, float avr, RANGETYPE type)
+{
+	m_max = max;
+	m_min = min;
+	m_average = avr;
+	m_type = type;
+}

@@ -36,7 +36,34 @@ class Date{
 		int day;
 };
 
-
+class RangeInfo{
+	public:
+		enum RANGETYPE{
+			FIVEDAYRANGE,
+			TENDAYRANGE,
+			TWEENTYDAYRANGE,
+			FIFTYDAYRANGE,
+			NONERANGE
+		};
+		RangeInfo(float max, float min, float avr, RANGETYPE rangeType);
+		RangeInfo();
+		void setupMaxMinAvrRange(float max, float min, float avr, RANGETYPE rangeType);
+		
+		void setMax(float max) {m_max = max;}
+		void setMin(float min) {m_min = min;}
+		void setAvr(float avr) {m_average = avr;}
+		void setType(RANGETYPE type) {m_type = type;}
+		
+		float max() {return m_max;}
+		float min() {return m_min;}
+		float avr() {return m_average;}
+		RANGETYPE type(){return m_type;}
+	private:
+		float m_max;
+		float m_min;
+		float m_average;
+		RANGETYPE m_type;
+};
 class SDT{
 	public:
 		SDT(const StockDataType& stock);
