@@ -43,6 +43,16 @@ class SDT{
 		SDT();
 		~SDT(){}
 		std::string toString();
+		void set20Max(float max){m_20Max = max;}
+		float tweenMax(){return m_20Max;}
+		void set20Min(float min){m_20Min = min;}
+		float tweenMin(){return m_20Min;}
+		void set20Avr(float avr){m_20Average = avr;}
+		float tweenAvr(){return m_20Average;}
+		float closingPrice(){return m_closingPrice;}
+		float openingPrice() {return m_openingPrice;}
+		float topPrice(){return m_topPrice;}
+		float floorPrice(){return m_floorPrice;}
 	private:
 		Date m_date;
 		float m_openingPrice;

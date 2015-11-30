@@ -6,6 +6,7 @@
 #include <vector>
 #include "stock.h"
 
+extern void getMaxMinAvr(int, std::vector<SDT>&);
 std::vector<SDT> StockDataArray;
 
 int main(int argc, char** argv) {
@@ -42,6 +43,8 @@ int main(int argc, char** argv) {
 		StockDataArray.push_back(a);
 	}
 	fclose (fp);
+	int range=20;
+	getMaxMinAvr(20, StockDataArray);
 	std::vector<SDT>::iterator it = StockDataArray.begin();
 	std::vector<SDT>::iterator end = StockDataArray.end();
 	for(; it != end; ++it) {
